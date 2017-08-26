@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\pymasdeabout.png",
+        "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\src\\main\\res\\drawable-hdpi\\pymasdeabout.png"
+    },
+    {
+        "merged": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\foot.jpeg",
+        "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\src\\main\\res\\drawable-hdpi\\foot.jpeg"
+    },
+    {
+        "merged": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\icon.png",
+        "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\src\\main\\res\\drawable-hdpi\\icon.png"
+    }
+]
