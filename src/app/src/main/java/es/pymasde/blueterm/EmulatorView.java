@@ -186,12 +186,14 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             if (msg.what == UPDATE) {
                     update();
 
+                calcEvaluetedPercentage();
+
                 //TODO enter here methods to update the UI - use the names of the components of the screen (id)[because the changes need to be inside a handler]
 //                BlueTerm.DataToWrite.setData(" test text ");
 
                 for(int s=0; s<numofSens; s++){
 //                    int index = BlueTerm.sensors.indexOf(sens)*3;
-                    BlueTerm.sensors.get(s).setText("sensor "+s+": "+eval[s]);
+                    BlueTerm.sensors.get(s).setText("sensor "+s+" have "+eval[s]+"% of pressure");
                 }
 
                 times++;
@@ -201,6 +203,21 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             }
         }
     };
+
+    private void calcEvaluetedPercentage() {
+        int total100percnt = get100Percnt();
+        for(int i=0; i< eval.length; i++){
+            eval[i] = (eval[i]*100)/total100percnt;
+        }
+    }
+
+    private int get100Percnt() {
+        int total100percnt = 0;
+        for(int e:eval){
+            total100percnt += e;
+        }
+        return total100percnt;
+    }
 
 
     public EmulatorView(Context context) {
