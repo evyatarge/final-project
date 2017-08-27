@@ -41,6 +41,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
     private static final int DIGITS = 3;
     private static final int LINE_LENGTH = (BlueTerm.numOfSensors*DIGITS)+BlueTerm.numOfSensors+1;
+    public static final int MIN_SENSOR_VAL = 600;
     /**
      * We defer some initialization until we have been layed out in the view
      * hierarchy. The boolean tracks when we know what our size is.
@@ -689,68 +690,104 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         }
     }
 
-    private void parseSensorsData(String stringRead) {
-        FullLineString = FullLineString + stringRead;
 
-        int index=0, countLines=0;
-        String endLine;
-        //TODO  -  refactor:
-        //1.consider to remove or replace this constants
-        //2.every chunk of numbers will be define/recognize/parse by an other function (all, every third/line, every sensor data)
-        //3.every chunk will be handled separately and go to its place by a function(sensNum,data)(?)
-        if(FullLineString.length()>=LINE_LENGTH) {
-            endLine = FullLineString.substring(index + LINE_LENGTH-2, index + LINE_LENGTH);
-        }else {
-            endLine = "";
+    private void parseSensorsData(String stringRead) {
+
+        if(stringRead.length() < LINE_LENGTH){
+            return;
         }
 
-        StringTokenizer tokenize = new StringTokenizer(FullLineString, "\r\n");
-        while(endLine.equals("\r\n")){
-            //TODO calculate the numeric value of this strings and calc the avg of them
-            String[] sens = new String[numofSens];
+        StringTokenizer lineDataToken = new StringTokenizer(stringRead);
 
+        int sensNum = 0;
 
-            if(tokenize.hasMoreTokens()){
-                String sensors = tokenize.nextToken();
+        while (lineDataToken.hasMoreTokens()){
 
-            }
-            for (int start=0,end=start+3; start<numofSens; start=end+1, end=start+3) {
-//                sens[start%numofSens] = FullLineString.substring(start, end);
+            String currentSensorData = lineDataToken.nextToken();
 
-
-
-
-
-                if(countLines!=0) {
-                    eval[start%numofSens] = (eval[start%numofSens] + Integer.valueOf(sens[start%numofSens])) / 2;
+            try {
+                int sensDataValue = Integer.parseInt(currentSensorData);
+                if (sensDataValue >= MIN_SENSOR_VAL) {
+                    boolean isTheFirstEnter = eval[sensNum]==0;
+                    eval[sensNum] = eval[sensNum] + sensDataValue;
+                    if(!isTheFirstEnter){
+                        eval[sensNum] = eval[sensNum] / 2;//TODO - this is a temporary calculation for the sensors data instead of a real average
+                    }
                 }
             }
-
-            index+=LINE_LENGTH;
-            countLines++;
-            if((index+LINE_LENGTH-2) < (FullLineString.length()) ) {
-                endLine = FullLineString.substring(index + LINE_LENGTH-2, index + LINE_LENGTH);
+            catch (NumberFormatException nfe){
+                nfe.printStackTrace();
             }
-            else {
-                endLine=" ";
-            }
-        }
-        //TODO consider to throw out the data without calculates and than in other function calculate
-//            eval1 = eval1/countLines;
-//            eval2 = eval2/countLines;
-//            eval3 = eval3/countLines;
-
-//            //TODO consider to remove the second condition (...=='\n') or to verify that will added to the FullLineString OR to change the printed varible!!!
-        if(FullLineString.length()>0 && FullLineString.charAt(FullLineString.length()-1)=='\n') {
-            //System.out.print("BlueTerm.FullLineString = " +FullLineString);
-
-            for(int i=0; i<numofSens; i++){
-                BlueTerm.bluetooth[0] = eval[i]+"\t"+eval[i]+"\t"+eval[i]+"\n";
+            finally {
+                sensNum = (sensNum+1)%3;
             }
 
-            FullLineString = "";
         }
     }
+
+//    private void parseSensorsData(String stringRead) {
+//        FullLineString = FullLineString + stringRead;
+//
+//        int index=0, countLines=0;
+//        String endLine;
+//        //TODO  -  refactor:
+//        //1.consider to remove or replace this constants
+//        //2.every chunk of numbers will be define/recognize/parse by an other function (all, every third/line, every sensor data)
+//        //3.every chunk will be handled separately and go to its place by a function(sensNum,data)(?)
+//        if(FullLineString.length()>=LINE_LENGTH) {
+//            endLine = FullLineString.substring(index + LINE_LENGTH-2, index + LINE_LENGTH);
+//        }else {
+//            endLine = "";
+//        }
+//
+//        StringTokenizer tokenize = new StringTokenizer(FullLineString, "\r\n");
+//
+//        while(endLine.equals("\r\n")){
+//            //TODO calculate the numeric value of this strings and calc the avg of them
+//            String[] sens = new String[numofSens];
+//
+//
+//            if(tokenize.hasMoreTokens()){
+//                String sensors = tokenize.nextToken();
+//
+//            }
+//            for (int start=0,end=start+3; start<numofSens; start=end+1, end=start+3) {
+////                sens[start%numofSens] = FullLineString.substring(start, end);
+//
+//
+//
+//
+//
+//                if(countLines!=0) {
+//                    eval[start%numofSens] = (eval[start%numofSens] + Integer.valueOf(sens[start%numofSens])) / 2;
+//                }
+//            }
+//
+//            index+=LINE_LENGTH;
+//            countLines++;
+//            if((index+LINE_LENGTH-2) < (FullLineString.length()) ) {
+//                endLine = FullLineString.substring(index + LINE_LENGTH-2, index + LINE_LENGTH);
+//            }
+//            else {
+//                endLine=" ";
+//            }
+//        }
+//        //TODO consider to throw out the data without calculates and than in other function calculate
+////            eval1 = eval1/countLines;
+////            eval2 = eval2/countLines;
+////            eval3 = eval3/countLines;
+//
+////            //TODO consider to remove the second condition (...=='\n') or to verify that will added to the FullLineString OR to change the printed varible!!!
+//        if(FullLineString.length()>0 && FullLineString.charAt(FullLineString.length()-1)=='\n') {
+//            //System.out.print("BlueTerm.FullLineString = " +FullLineString);
+//
+//            for(int i=0; i<numofSens; i++){
+//                BlueTerm.bluetooth[0] = eval[i]+"\t"+eval[i]+"\t"+eval[i]+"\n";
+//            }
+//
+//            FullLineString = "";
+//        }
+//    }
 
     @Override
     protected void onDraw(Canvas canvas) {
