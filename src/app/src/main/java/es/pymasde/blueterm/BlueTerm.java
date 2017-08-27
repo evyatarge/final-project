@@ -953,7 +953,7 @@ class PaintRenderer extends BaseTextRenderer {
         if (underline) {
             mTextPaint.setUnderlineText(true);
         }
-        mTextPaint.setColor(mForePaint[foreColor & 0x0]);
+        mTextPaint.setColor(mForePaint[foreColor & 0x1]);
         canvas.drawText(text, index, count, left, y, mTextPaint);
         if (bold) {
             mTextPaint.setFakeBoldText(false);
