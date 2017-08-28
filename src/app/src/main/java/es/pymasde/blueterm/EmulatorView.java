@@ -193,7 +193,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
                 for(int s=0; s<numofSens; s++){
 //                    int index = BlueTerm.sensors.indexOf(sens)*3;
-                    BlueTerm.sensors.get(s).setText("sensor "+s+" have "+eval[s]+"% of pressure");
+                    BlueTerm.sensors.get(s).setText("area "+(s+1)+" get "+eval[s]+"% pressure");
                 }
 
                 times++;
@@ -205,16 +205,18 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     };
 
     private void calcEvaluetedPercentage() {
-        int total100percnt = get100Percnt();
-        for(int i=0; i< eval.length; i++){
-            eval[i] = (eval[i]*100)/total100percnt;
+        int total_100percnt = get100Percnt();
+        if(total_100percnt != 0){
+            for(int i=0; i< eval.length; i++){
+                eval[i] = (eval[i]*100)/total_100percnt;
+            }
         }
     }
 
     private int get100Percnt() {
         int total100percnt = 0;
-        for(int e:eval){
-            total100percnt += e;
+        for(int i=0; i< eval.length; i++){
+            total100percnt += eval[i];
         }
         return total100percnt;
     }
@@ -716,7 +718,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
         StringTokenizer lineDataToken = new StringTokenizer(stringRead);
 
-        int sensNum = 0;
+        int currentSensNum = 0;
 
         while (lineDataToken.hasMoreTokens()){
 
@@ -725,10 +727,10 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             try {
                 int sensDataValue = Integer.parseInt(currentSensorData);
                 if (sensDataValue >= MIN_SENSOR_VAL) {
-                    boolean isTheFirstEnter = eval[sensNum]==0;
-                    eval[sensNum] = eval[sensNum] + sensDataValue;
+                    boolean isTheFirstEnter = eval[currentSensNum]==0;
+                    eval[currentSensNum] = eval[currentSensNum] + sensDataValue;
                     if(!isTheFirstEnter){
-                        eval[sensNum] = eval[sensNum] / 2;//TODO - this is a temporary calculation for the sensors data instead of a real average
+                        eval[currentSensNum] = eval[currentSensNum] / 2;//TODO - this is a temporary calculation for the sensors data instead of a real average
                     }
                 }
             }
@@ -736,7 +738,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 nfe.printStackTrace();
             }
             finally {
-                sensNum = (sensNum+1)%3;
+                currentSensNum = (currentSensNum+1)%BlueTerm.numOfSensors;
             }
 
         }
@@ -826,7 +828,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             if (i == cy) {
                 cursorX = cx;
             }
-            mTranscriptScreen.drawText(i, canvas, x, y, mTextRenderer, cursorX);
+            //TODO - this is the text draw for every row of sensors read on screen
+//            mTranscriptScreen.drawText(i, canvas, x, y, mTextRenderer, cursorX);
             y += mCharacterHeight;
         }
     }

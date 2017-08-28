@@ -4,15 +4,7 @@
         "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\final-project\\src\\app\\src\\main\\res\\drawable-ldpi\\foot.jpeg"
     },
     {
-        "merged": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\foot.jpeg",
-        "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\src\\main\\res\\drawable-ldpi\\foot.jpeg"
-    },
-    {
         "merged": "C:\\Users\\evyatarg\\AndroidStudioProjects\\final-project\\src\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\icon.png",
         "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\final-project\\src\\app\\src\\main\\res\\drawable-ldpi\\icon.png"
-    },
-    {
-        "merged": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi-v4\\icon.png",
-        "source": "C:\\Users\\evyatarg\\AndroidStudioProjects\\BlueTerm\\app\\src\\main\\res\\drawable-ldpi\\icon.png"
     }
 ]

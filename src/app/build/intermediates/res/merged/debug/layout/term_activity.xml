@@ -24,7 +24,7 @@
     android:orientation="vertical">
 
     <es.pymasde.blueterm.EmulatorView android:id="@+id/emulatorView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="159dp"
         android:layout_alignParentLeft="true"
         />
@@ -38,15 +38,15 @@
         <TextView
             android:text="sensor 1:"
             android:id="@+id/sensData_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:inputType="number"
             android:textColor="#D50000"
             android:textSize="20dp"
             android:textStyle="bold"
             android:ems="10"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="100dp"/>
+            android:layout_marginLeft="50dp"/>
 
     </RelativeLayout>
 
@@ -58,14 +58,14 @@
         <TextView
             android:text="sensor 2:"
             android:id="@+id/sensData_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:inputType="number"
             android:textColor="#D50000"
             android:textSize="20dp"
             android:textStyle="bold"
             android:ems="10"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="50dp"
             android:layout_gravity="center_vertical"
             />
 
@@ -79,15 +79,15 @@
         <TextView
             android:text="sensor 3:"
             android:id="@+id/sensData_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:inputType="number"
             android:textColor="#D50000"
             android:textSize="20dp"
             android:textStyle="bold"
             android:ems="10"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="100dp"/>
+            android:layout_marginLeft="50dp"/>
 
 
     </RelativeLayout>
