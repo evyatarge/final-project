@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="red">#ff0000</color>
-    <color name="yellow">#ffff00</color>
-    <color name="lime">#00ff00</color>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <color name="red" android:id="@+id/color_red">#ff0000</color>
+    <color name="yellow" android:id="@+id/color_yellow">#ffff00</color>
+    <color name="lime" android:id="@+id/color_lime">#00ff00</color>
 </resources>
