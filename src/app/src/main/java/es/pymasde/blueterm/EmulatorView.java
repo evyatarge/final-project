@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -174,7 +175,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     /**
      * Our message handler class. Implements a periodic callback.
      */
-    private final Handler mHandler = new Handler() {
+    protected final Handler mHandler = new Handler() {
         /**
          * Handle the callback message. Call our enclosing class's update
          * method.
@@ -186,7 +187,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             if (msg.what == UPDATE) {
                     update();
 
-                calcEvaluetedPercentage();
+                setEvaluetedToPercentage();
+                setCirclePercentageColor();
 
                 //TODO enter here methods to update the UI - use the names of the components of the screen (id)[because the changes need to be inside a handler]
 //                BlueTerm.DataToWrite.setData(" test text ");
@@ -203,8 +205,27 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             }
         }
     };
+    private Integer circle_0;
 
-    private void calcEvaluetedPercentage() {
+    private void setCirclePercentageColor() {
+        int percent_0 = eval[0];
+//        if(percent_0==0){percent_0=1;}
+        int color0 = 255*percent_0/100;
+        mBlueTerm.sensors.get(0).setBackgroundColor(color0);
+
+        int percent_1 = eval[1];
+//        if(percent_1==0){percent_1=1;}
+        int color1 = 255*percent_1/100;
+        mBlueTerm.sensors.get(1).setBackgroundColor(color1);
+
+        int percent_2 = eval[2];
+//        if(percent_2==0){percent_2=1;}
+        int color2 = 255*percent_2/100;
+        mBlueTerm.sensors.get(2).setBackgroundColor(color2);
+
+    }
+
+    private void setEvaluetedToPercentage() {
         int total_100percnt = get100Percnt();
         if(total_100percnt != 0){
             for(int i=0; i< eval.length; i++){

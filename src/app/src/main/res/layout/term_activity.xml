@@ -38,17 +38,19 @@
         <TextView
             android:text="sensor 1:"
             android:id="@+id/sensData_1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:background="@drawable/circle_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:inputType="number"
             android:textColor="#D50000"
             android:textSize="20dp"
             android:textStyle="bold"
             android:ems="10"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="50dp"/>
-
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="90dp"/>
     </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -58,15 +60,17 @@
         <TextView
             android:text="sensor 2:"
             android:id="@+id/sensData_2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:background="@drawable/circle_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:inputType="number"
             android:textColor="#D50000"
             android:textSize="20dp"
             android:textStyle="bold"
             android:ems="10"
-            android:layout_marginLeft="50dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="90dp"
             />
 
     </RelativeLayout>
@@ -79,15 +83,17 @@
         <TextView
             android:text="sensor 3:"
             android:id="@+id/sensData_3"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:background="@drawable/circle_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:inputType="number"
             android:textColor="#D50000"
             android:textSize="20dp"
             android:textStyle="bold"
             android:ems="10"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="50dp"/>
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="90dp"/>
 
 
     </RelativeLayout>
