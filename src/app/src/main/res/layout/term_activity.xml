@@ -39,7 +39,6 @@
         <TextView
             android:text="sensor 1:"
             android:id="@+id/sensData_1"
-            android:background="@values:color/red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -64,7 +63,6 @@
         <TextView
             android:text="sensor 2:"
             android:id="@+id/sensData_2"
-            android:background="@values:color/lime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -88,7 +86,6 @@
         <TextView
             android:text="sensor 3:"
             android:id="@+id/sensData_3"
-            android:background="@values:color/yellow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"

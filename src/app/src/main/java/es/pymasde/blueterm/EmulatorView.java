@@ -190,7 +190,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 setEvaluetedToPercentage();
                 setCirclePercentageColor();
 
-                //TODO enter here methods to update the UI - use the names of the components of the screen (id)[because the changes need to be inside a handler]
+                //TODO enter here methods to update the UI - use the names of the components of the screen (id)[because changes need to be inside a handler]
 //                BlueTerm.DataToWrite.setData(" test text ");
 
                 for(int s=0; s<numofSens; s++){
@@ -199,37 +199,65 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 }
 
                 times++;
-//                BlueTerm.sensorA.setText(Math.random()*100+"");
-//                BlueTerm.sensorB.setText(Math.random()*100+"");
-//                BlueTerm.sensorC.setText(Math.random()*100+"");
             }
         }
     };
-    private Integer circle_0;
+
+    private int[] percents = new int[numofSens];
+    private String[] colors = new String[numofSens];
 
     private void setCirclePercentageColor() {
-        int percent_0 = eval[0];
-//        if(percent_0==0){percent_0=1;}
-        int color0 = 255*percent_0/100;
-        mBlueTerm.sensors.get(0).setBackgroundColor(color0);
+//        int percent_0 = eval[0];
+////        if(percent_0==0){percent_0=1;}
+//        int color0 = 255*percent_0/100;
+//        mBlueTerm.sensors.get(0).setBackgroundColor(color0);
+//
+//        int percent_1 = eval[1];
+////        if(percent_1==0){percent_1=1;}
+//        int color1 = 255*percent_1/100;
+//        mBlueTerm.sensors.get(1).setBackgroundColor(color1);
+//
+//        int percent_2 = eval[2];
+////        if(percent_2==0){percent_2=1;}
+//        int color2 = 255*percent_2/100;
+//        mBlueTerm.sensors.get(2).setBackgroundColor(color2);
 
-        int percent_1 = eval[1];
-//        if(percent_1==0){percent_1=1;}
-        int color1 = 255*percent_1/100;
-        mBlueTerm.sensors.get(1).setBackgroundColor(color1);
-
-        int percent_2 = eval[2];
-//        if(percent_2==0){percent_2=1;}
-        int color2 = 255*percent_2/100;
-        mBlueTerm.sensors.get(2).setBackgroundColor(color2);
-
+//        Color.parseColor(colors[0])
+        for (int i = 0; i < numofSens; i++){
+            mBlueTerm.sensors.get(i).setBackgroundColor(Color.parseColor(colors[i]));
+        }
     }
 
     private void setEvaluetedToPercentage() {
+//        int total_100percnt = get100Percnt();
+//        if(total_100percnt != 0){
+//            for(int i=0; i< eval.length; i++){
+//                eval[i] = (eval[i]*100)/total_100percnt;
+//            }
+//        }
+
         int total_100percnt = get100Percnt();
         if(total_100percnt != 0){
             for(int i=0; i< eval.length; i++){
-                eval[i] = (eval[i]*100)/total_100percnt;
+                percents[i] = (eval[i]*100)/total_100percnt;
+            }
+        }
+
+        setPercentToColor(percents,colors);
+    }
+
+    private void setPercentToColor(int[] percents, String[] colorsToSensorsByPercent) {
+        String red = "#f00000", yellow="#e8f000", green="#04f000";
+
+        for(int i = 0; i<percents.length; i++){
+            if(percents[i] > 50){
+                colorsToSensorsByPercent[i] = red;
+            }
+            else if(percents[i] < 20){
+                colorsToSensorsByPercent[i] = green;
+            }
+            else{
+                colorsToSensorsByPercent[i] = yellow;
             }
         }
     }
