@@ -83,6 +83,14 @@ gen-external-apklibs
 /*/local.properties
 /*/out
 /*/*/build
+# my added specific for my project - Evaytar
+src/app/build/
+src/.gradle/
+src/.idea/
+src/build.gradle
+src/build/
+src/gradle/
+
 /*/*/production
 *.ipr
 *~
