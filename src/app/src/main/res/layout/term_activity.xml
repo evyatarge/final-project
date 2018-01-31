@@ -19,7 +19,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
-    android:background="@drawable/foot"
+    android:background="@drawable/myfoot"
 
     android:orientation="vertical">
 
@@ -37,19 +37,20 @@
         >
 
         <TextView
-            android:text="sensor 1:"
             android:id="@+id/sensData_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="25dp"
+            android:ems="10"
             android:inputType="number"
+            android:text="sensor 1:"
             android:textColor="#D50000"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:ems="10"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="90dp"
-        />
+            android:textStyle="bold" />
+        <!--android:background="@drawable/circle_0"-->
         <!--android:layout_marginLeft="50dp"-->
     </RelativeLayout>
 
@@ -61,19 +62,21 @@
         android:layout_weight="0.3">
 
         <TextView
-            android:text="sensor 2:"
             android:id="@+id/sensData_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="51dp"
+            android:layout_marginTop="19dp"
+            android:ems="10"
             android:inputType="number"
+            android:text="sensor 2:"
             android:textColor="#D50000"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:ems="10"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="90dp"
-        />
+            android:textStyle="bold" />
+        <!--android:background="@drawable/circle_1"-->
         <!--android:layout_marginLeft="50dp"-->
     </RelativeLayout>
 
@@ -84,19 +87,21 @@
         android:layout_weight="0.3">
 
         <TextView
-            android:text="sensor 3:"
             android:id="@+id/sensData_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="44dp"
+            android:layout_marginTop="37dp"
+            android:ems="10"
             android:inputType="number"
+            android:text="sensor 3:"
             android:textColor="#D50000"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:ems="10"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="45dp"
-            android:layout_marginLeft="90dp"
-        />
+            android:textStyle="bold" />
+        <!--android:background="@drawable/circle_2"-->
         <!--android:layout_marginLeft="50dp"-->
     </RelativeLayout>
 

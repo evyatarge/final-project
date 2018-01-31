@@ -464,7 +464,7 @@ public class BlueTerm extends Activity {
     private final Handler mHandlerBT = new Handler() {
     	
         @Override
-        public void handleMessage(Message msg) {        	
+        public void handleMessage(Message msg) {
             switch (msg.what) {
             case MESSAGE_STATE_CHANGE:
                 if(DEBUG) Log.i(LOG_TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
@@ -763,12 +763,14 @@ public class BlueTerm extends Activity {
     	mEmulatorView.startRecording();
 
     	mMenuItemStartStopRecording.setTitle(R.string.menu_stop_logging);
+
+
         Toast.makeText(getApplicationContext(), getString(R.string.menu_logging_started) + "\n\n" + fileName, Toast.LENGTH_LONG).show();
     }
     
     private void doStopRecording() {
     	mEmulatorView.stopRecording();
-    	mMenuItemStartStopRecording.setTitle(R.string.menu_start_logging);    	
+    	mMenuItemStartStopRecording.setTitle(R.string.menu_start_logging);
         Toast.makeText(getApplicationContext(), getString(R.string.menu_logging_stopped), Toast.LENGTH_SHORT).show();
     }
     

@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -27,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -42,7 +42,10 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
     private static final int DIGITS = 3;
     private static final int LINE_LENGTH = (BlueTerm.numOfSensors*DIGITS)+BlueTerm.numOfSensors+1;
-    public static final int MIN_SENSOR_VAL = 600;
+    public static final double MIN_SENSOR_VAL = 600;
+    private static final double MAX_SENSOR_VAL = 900;
+    private static final double MAX_RANGE = 100;
+    private static final double MIN_RANGE = 0;
     /**
      * We defer some initialization until we have been layed out in the view
      * hierarchy. The boolean tracks when we know what our size is.
@@ -151,6 +154,10 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     //the current eval of the sensors
     int[] eval = new int[numofSens];
 
+    //this represent the percentage and colors of the sensors current state
+    int[] percents = new int[numofSens];
+    String[] colors = new String[numofSens];
+
     //this var holds the times we are updating the data from the sensors to out sens list
     int times = 0;
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +202,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
                 for(int s=0; s<numofSens; s++){
 //                    int index = BlueTerm.sensors.indexOf(sens)*3;
-                    BlueTerm.sensors.get(s).setText("area "+(s+1)+" get "+eval[s]+"% pressure");
+                    BlueTerm.sensors.get(s).setText("area "+(s+1)+" get "+percents[s]+"% pressure");
                 }
 
                 times++;
@@ -203,8 +210,6 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         }
     };
 
-    private int[] percents = new int[numofSens];
-    private String[] colors = new String[numofSens];
 
     private void setCirclePercentageColor() {
 //        int percent_0 = eval[0];
@@ -229,14 +234,14 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
 
     private void setEvaluetedToPercentage() {
-//        int total_100percnt = get100Percnt();
+//        int total_100percnt = get100Percent();
 //        if(total_100percnt != 0){
 //            for(int i=0; i< eval.length; i++){
 //                eval[i] = (eval[i]*100)/total_100percnt;
 //            }
 //        }
 
-        int total_100percnt = get100Percnt();
+        int total_100percnt = get100Percent();
         if(total_100percnt != 0){
             for(int i=0; i< eval.length; i++){
                 percents[i] = (eval[i]*100)/total_100percnt;
@@ -250,10 +255,11 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         String red = "#f00000", yellow="#e8f000", green="#04f000";
 
         for(int i = 0; i<percents.length; i++){
-            if(percents[i] > 50){
+//            if(percents[i]==0){continue;}//TODO - maybe set this with color and text that say we have here some problem
+            if(percents[i] > 60){
                 colorsToSensorsByPercent[i] = red;
             }
-            else if(percents[i] < 20){
+            else if(percents[i] < 30){
                 colorsToSensorsByPercent[i] = green;
             }
             else{
@@ -262,7 +268,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         }
     }
 
-    private int get100Percnt() {
+    private int get100Percent() {
         int total100percnt = 0;
         for(int i=0; i< eval.length; i++){
             total100percnt += eval[i];
@@ -506,7 +512,13 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     public EmulatorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(R.styleable.EmulatorView);
-        initializeScrollbars(a);
+        try {
+            // initializeScrollbars(TypedArray)
+            Method initializeScrollbars = android.view.View.class.getDeclaredMethod("initializeScrollbars", TypedArray.class);
+            initializeScrollbars.invoke(this, a);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         a.recycle();
         commonConstructor(context);
     }
@@ -780,6 +792,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                     eval[currentSensNum] = eval[currentSensNum] + sensDataValue;
                     if(!isTheFirstEnter){
                         eval[currentSensNum] = eval[currentSensNum] / 2;//TODO - this is a temporary calculation for the sensors data instead of a real average
+//                        eval[currentSensNum] = normalizeEvaluationToRange(eval[currentSensNum]);//TODO - this is a problem due to the fact that the eval is accumulated in itself
                     }
                 }
             }
@@ -791,6 +804,15 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             }
 
         }
+    }
+
+    private int normalizeEvaluationToRange(int current) {
+        if(current<MIN_SENSOR_VAL){
+            return current;
+        }
+        double realResult = (((double)current-MIN_SENSOR_VAL)/MIN_SENSOR_VAL)*(MAX_RANGE-MIN_RANGE)+MIN_RANGE;
+        int result = (int) realResult;
+        return result;
     }
 
 //    private void parseSensorsData(String stringRead) {
