@@ -475,7 +475,7 @@ public class BlueTerm extends Activity {
                 		mMenuItemConnect.setTitle(R.string.disconnect);
                 	}
                 	
-                	mInputManager.showSoftInput(mEmulatorView, InputMethodManager.SHOW_IMPLICIT);
+//                	mInputManager.showSoftInput(mEmulatorView, InputMethodManager.SHOW_IMPLICIT);
                 	
                     mTitle.setText( R.string.title_connected_to );
                     mTitle.append(" " + mConnectedDeviceName);

@@ -160,6 +160,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
     //this var holds the times we are updating the data from the sensors to out sens list
     int times = 0;
+
+    public static String RED = "#f00000", YELLOW="#e8f000", GREEN="#04f000", WHITE="#ffffff";
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     private String mFileNameLog;
@@ -175,7 +177,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     private Runnable mCheckSize = new Runnable() {
         public void run() {
             updateSize();
-            mHandler.postDelayed(this, 1500);
+            mHandler.postDelayed(this, 100);
         }
     };
 
@@ -194,14 +196,13 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             if (msg.what == UPDATE) {
                     update();
 
-                setEvaluetedToPercentage();
-                setCirclePercentageColor();
-
                 //TODO enter here methods to update the UI - use the names of the components of the screen (id)[because changes need to be inside a handler]
 //                BlueTerm.DataToWrite.setData(" test text ");
 
+                setEvaluetedToPercentage();
+                setPercentageColor();
+
                 for(int s=0; s<numofSens; s++){
-//                    int index = BlueTerm.sensors.indexOf(sens)*3;
                     BlueTerm.sensors.get(s).setText("area "+(s+1)+" get "+percents[s]+"% pressure");
                 }
 
@@ -211,36 +212,16 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     };
 
 
-    private void setCirclePercentageColor() {
-//        int percent_0 = eval[0];
-////        if(percent_0==0){percent_0=1;}
-//        int color0 = 255*percent_0/100;
-//        mBlueTerm.sensors.get(0).setBackgroundColor(color0);
-//
-//        int percent_1 = eval[1];
-////        if(percent_1==0){percent_1=1;}
-//        int color1 = 255*percent_1/100;
-//        mBlueTerm.sensors.get(1).setBackgroundColor(color1);
-//
-//        int percent_2 = eval[2];
-////        if(percent_2==0){percent_2=1;}
-//        int color2 = 255*percent_2/100;
-//        mBlueTerm.sensors.get(2).setBackgroundColor(color2);
-
-//        Color.parseColor(colors[0])
+    private void setPercentageColor() {
         for (int i = 0; i < numofSens; i++){
             mBlueTerm.sensors.get(i).setBackgroundColor(Color.parseColor(colors[i]));
+            if(colors[i].equals(RED)){
+                mBlueTerm.sensors.get(i).setTextColor(Color.parseColor(WHITE));
+            }
         }
     }
 
     private void setEvaluetedToPercentage() {
-//        int total_100percnt = get100Percent();
-//        if(total_100percnt != 0){
-//            for(int i=0; i< eval.length; i++){
-//                eval[i] = (eval[i]*100)/total_100percnt;
-//            }
-//        }
-
         int total_100percnt = get100Percent();
         if(total_100percnt != 0){
             for(int i=0; i< eval.length; i++){
@@ -252,18 +233,17 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
 
     private void setPercentToColor(int[] percents, String[] colorsToSensorsByPercent) {
-        String red = "#f00000", yellow="#e8f000", green="#04f000";
 
         for(int i = 0; i<percents.length; i++){
 //            if(percents[i]==0){continue;}//TODO - maybe set this with color and text that say we have here some problem
-            if(percents[i] > 60){
-                colorsToSensorsByPercent[i] = red;
+            if(percents[i] > 34){
+                colorsToSensorsByPercent[i] = RED;
             }
-            else if(percents[i] < 30){
-                colorsToSensorsByPercent[i] = green;
+            else if(percents[i] < 32){
+                colorsToSensorsByPercent[i] = GREEN;
             }
             else{
-                colorsToSensorsByPercent[i] = yellow;
+                colorsToSensorsByPercent[i] = YELLOW;
             }
         }
     }
@@ -284,7 +264,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
     public void onResume() {
         updateSize();
-        mHandler.postDelayed(mCheckSize, 1000);
+        mHandler.postDelayed(mCheckSize, 100);
     }
 
     public void onPause() {
@@ -814,70 +794,6 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         int result = (int) realResult;
         return result;
     }
-
-//    private void parseSensorsData(String stringRead) {
-//        FullLineString = FullLineString + stringRead;
-//
-//        int index=0, countLines=0;
-//        String endLine;
-//        //TODO  -  refactor:
-//        //1.consider to remove or replace this constants
-//        //2.every chunk of numbers will be define/recognize/parse by an other function (all, every third/line, every sensor data)
-//        //3.every chunk will be handled separately and go to its place by a function(sensNum,data)(?)
-//        if(FullLineString.length()>=LINE_LENGTH) {
-//            endLine = FullLineString.substring(index + LINE_LENGTH-2, index + LINE_LENGTH);
-//        }else {
-//            endLine = "";
-//        }
-//
-//        StringTokenizer tokenize = new StringTokenizer(FullLineString, "\r\n");
-//
-//        while(endLine.equals("\r\n")){
-//            //TODO calculate the numeric value of this strings and calc the avg of them
-//            String[] sens = new String[numofSens];
-//
-//
-//            if(tokenize.hasMoreTokens()){
-//                String sensors = tokenize.nextToken();
-//
-//            }
-//            for (int start=0,end=start+3; start<numofSens; start=end+1, end=start+3) {
-////                sens[start%numofSens] = FullLineString.substring(start, end);
-//
-//
-//
-//
-//
-//                if(countLines!=0) {
-//                    eval[start%numofSens] = (eval[start%numofSens] + Integer.valueOf(sens[start%numofSens])) / 2;
-//                }
-//            }
-//
-//            index+=LINE_LENGTH;
-//            countLines++;
-//            if((index+LINE_LENGTH-2) < (FullLineString.length()) ) {
-//                endLine = FullLineString.substring(index + LINE_LENGTH-2, index + LINE_LENGTH);
-//            }
-//            else {
-//                endLine=" ";
-//            }
-//        }
-//        //TODO consider to throw out the data without calculates and than in other function calculate
-////            eval1 = eval1/countLines;
-////            eval2 = eval2/countLines;
-////            eval3 = eval3/countLines;
-//
-////            //TODO consider to remove the second condition (...=='\n') or to verify that will added to the FullLineString OR to change the printed varible!!!
-//        if(FullLineString.length()>0 && FullLineString.charAt(FullLineString.length()-1)=='\n') {
-//            //System.out.print("BlueTerm.FullLineString = " +FullLineString);
-//
-//            for(int i=0; i<numofSens; i++){
-//                BlueTerm.bluetooth[0] = eval[i]+"\t"+eval[i]+"\t"+eval[i]+"\n";
-//            }
-//
-//            FullLineString = "";
-//        }
-//    }
 
     @Override
     protected void onDraw(Canvas canvas) {
