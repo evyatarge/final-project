@@ -206,7 +206,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                     BlueTerm.sensors.get(s).setText("area "+(s+1)+" get "+percents[s]+"% pressure");
                 }
 
-                times++;
+//                times++;
             }
         }
     };
@@ -217,6 +217,9 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             mBlueTerm.sensors.get(i).setBackgroundColor(Color.parseColor(colors[i]));
             if(colors[i].equals(RED)){
                 mBlueTerm.sensors.get(i).setTextColor(Color.parseColor(WHITE));
+            }
+            else{
+                mBlueTerm.sensors.get(i).setTextColor(Color.parseColor(RED));
             }
         }
     }
@@ -747,6 +750,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 this.writeLog( stringRead );
             }
         } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("read sensors data interrupted with the following message: "+e.getMessage());
         }
     }
 
