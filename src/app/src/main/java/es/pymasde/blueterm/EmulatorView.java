@@ -40,12 +40,7 @@ import java.util.StringTokenizer;
 
 public class EmulatorView extends View implements GestureDetector.OnGestureListener {
 
-    private static final int DIGITS = 3;
-    private static final int LINE_LENGTH = (BlueTerm.numOfSensors*DIGITS)+BlueTerm.numOfSensors+1;
-    public static final double MIN_SENSOR_VAL = 600;
-    private static final double MAX_SENSOR_VAL = 900;
-    private static final double MAX_RANGE = 100;
-    private static final double MIN_RANGE = 0;
+
     /**
      * We defer some initialization until we have been layed out in the view
      * hierarchy. The boolean tracks when we know what our size is.
@@ -145,21 +140,23 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     public static final int UPDATE = 1;
 
     /////////////////////////////////////////////////       MY VARIABLES        ///////////////////
-    /**
-     * this String will accumulate the received strings data to pass the full row to the terminal
-      */
-    public String FullLineString = "";
+    private static final int DIGITS = 3;
+    // the minimum length of line format of data, that can be read and parse from the sensors
+    private static final int LINE_LENGTH = (BlueTerm.numOfSensors*DIGITS)+BlueTerm.numOfSensors+1;
+    // the min and max values of sensors. this is used to normalized the values
+    public static final double MIN_SENSOR_VAL = 600;
+    private static final double MAX_SENSOR_VAL = 900;
+    // after we are taking the values from the sensors, we want to present the data in some range of normalized
+    private static final double MAX_RANGE = 100;
+    private static final double MIN_RANGE = 0;
 
-    int numofSens = BlueTerm.numOfSensors;
+    final int NUM_OF_SENSORS = BlueTerm.numOfSensors;
     //the current eval of the sensors
-    int[] eval = new int[numofSens];
+    int[] eval = new int[NUM_OF_SENSORS];
 
     //this represent the percentage and colors of the sensors current state
-    int[] percents = new int[numofSens];
-    String[] colors = new String[numofSens];
-
-    //this var holds the times we are updating the data from the sensors to out sens list
-    int times = 0;
+    int[] percents = new int[NUM_OF_SENSORS];
+    String[] colors = new String[NUM_OF_SENSORS];
 
     public static String RED = "#f00000", YELLOW="#e8f000", GREEN="#04f000", WHITE="#ffffff";
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,26 +191,25 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == UPDATE) {
-                    update();
+                update();
 
-                //TODO enter here methods to update the UI - use the names of the components of the screen (id)[because changes need to be inside a handler]
-//                BlueTerm.DataToWrite.setData(" test text ");
+                //enter here methods to update the UI using the names of the components of the screen (id)
+                // [because changes need to be inside a handler]
 
                 setEvaluetedToPercentage();
                 setPercentageColor();
 
-                for(int s=0; s<numofSens; s++){
+                for(int s = 0; s< NUM_OF_SENSORS; s++){
                     BlueTerm.sensors.get(s).setText("area "+(s+1)+" get "+percents[s]+"% pressure");
                 }
 
-//                times++;
             }
         }
     };
 
 
     private void setPercentageColor() {
-        for (int i = 0; i < numofSens; i++){
+        for (int i = 0; i < NUM_OF_SENSORS; i++){
             mBlueTerm.sensors.get(i).setBackgroundColor(Color.parseColor(colors[i]));
             if(colors[i].equals(RED)){
                 mBlueTerm.sensors.get(i).setTextColor(Color.parseColor(WHITE));
@@ -474,7 +470,6 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         };
     }
 
-    //TODO look here and consider change to write my data
     public void write(byte[] buffer, int length) {
         try {
             mByteQueue.write(buffer, 0, length);
@@ -539,12 +534,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         return mTranscriptScreen.getActiveRows() + mTopRow - mRows;
     }
 
-    /**
-     * Call this to initialize the view.
-     *
-     * @param termFd the file descriptor
-     * @param termOut the output stream for the pseudo-teletype
-     */
+
     public void initialize(BlueTerm blueTerm) {
         mBlueTerm = blueTerm;
         mTextSize = 30;
@@ -772,11 +762,11 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
             try {
                 int sensDataValue = Integer.parseInt(currentSensorData);
-                if (sensDataValue >= MIN_SENSOR_VAL) {
+                if (sensDataValue >= MIN_SENSOR_VAL && sensDataValue <= MAX_SENSOR_VAL) {
                     boolean isTheFirstEnter = eval[currentSensNum]==0;
                     eval[currentSensNum] = eval[currentSensNum] + sensDataValue;
                     if(!isTheFirstEnter){
-                        eval[currentSensNum] = eval[currentSensNum] / 2;//TODO - this is a temporary calculation for the sensors data instead of a real average
+                        eval[currentSensNum] = eval[currentSensNum]/2; //TODO - this is a temporary calculation for the sensors data instead of a real average
 //                        eval[currentSensNum] = normalizeEvaluationToRange(eval[currentSensNum]);//TODO - this is a problem due to the fact that the eval is accumulated in itself
                     }
                 }

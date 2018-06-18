@@ -71,8 +71,6 @@ public class BlueTerm extends Activity {
     protected static List<TextView> sensors = new ArrayList<TextView>();
 
     private static TextView mTitle;
-    // this is a custom variable to handle &/or store the data string that receive from the stream
-    public static String[] bluetooth = new String[1];
 
     // Name of the connected device
     private String mConnectedDeviceName = null;
